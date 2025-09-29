@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Applicant; // ตรวจสอบให้แน่ใจว่าคุณสร้าง Model ชื่อ Applicant แล้ว
 
 class ApplicantController extends Controller
@@ -23,6 +24,7 @@ class ApplicantController extends Controller
             'email' => 'required|email|unique:applicants|max:255',
             'phone' => 'required|unique:applicants|max:20',
             'birth_date' => 'required|date',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ], [
             'name.required' => 'กรุณากรอกชื่อ',
             'email.required' => 'กรุณากรอกอีเมล',
@@ -32,6 +34,8 @@ class ApplicantController extends Controller
             'phone.unique' => 'เบอร์โทรศัพท์นี้มีในระบบแล้ว',
             'birth_date.required' => 'กรุณาเลือกวันเกิด',
             'birth_date.date' => 'รูปแบบวันที่ไม่ถูกต้อง',
+            'profile_image.image' => 'ไฟล์ที่อัปโหลดต้องเป็นรูปภาพ',
+            'profile_image.max' => 'ขนาดรูปภาพต้องไม่เกิน 2MB',
         ]);
 
         // 2. ตรวจสอบว่าข้อมูลไม่ผ่าน Validation หรือไม่
@@ -48,6 +52,15 @@ class ApplicantController extends Controller
             $applicant->email = $request->email;
             $applicant->phone = $request->phone;
             $applicant->birth_date = $request->birth_date;
+            
+            // Handle profile image upload
+            if ($request->hasFile('profile_image')) {
+                $image = $request->file('profile_image');
+                $imageName = time() . '_' . $applicant->name . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('public/profile_images', $imageName);
+                $applicant->profile_image = $imageName;
+            }
+            
             $applicant->save();
 
             // อัตโนมัติเข้าสู่ระบบหลังจากลงทะเบียนสำเร็จ

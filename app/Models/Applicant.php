@@ -14,5 +14,6 @@ class Applicant extends Model
         'email',
         'phone',
         'birth_date',
+        'profile_image',
     ];
 }

@@ -490,7 +490,7 @@
                     style="background-color: #4285f4; color: white; padding: 12px 30px; border-radius: 6px; font-size: 16px; text-decoration: none; display: inline-block; transition: background-color 0.3s ease;">
                     สมัครเรียน
                 </a>
-                <a href="{{ url('/admin') }}"
+                <a href="{{ route('admin.login') }}"
                     style="background-color: #dc3545; color: white; padding: 12px 20px; border-radius: 6px; font-size: 14px; text-decoration: none; display: inline-block; transition: background-color 0.3s ease;">
                     Admin
                 </a>
@@ -531,7 +531,7 @@
                     </tr>
                     <tr>
                         <td>ภาษาที่ใช้</td>
-                        <td>ไทย/Thai/泰语 (Tàiyǔ)</td>
+                        <td>ไทย/Thai/泰สุ (Tàiyǔ)</td>
                     </tr>
                     <tr>
                         <td>ค่าเรียน</td>

@@ -39,7 +39,7 @@
                 <nav class="space-y-2">
                     <a href="{{ url('/system') }}" class="block text-white hover:bg-gray-600 px-3 py-2 rounded">ลงทะเบียนการไว้ระบบ</a>
                     <a href="{{ url('/login')}}" class="block text-white hover:bg-gray-600 px-3 py-2 rounded">เข้าสู่ระบบ</a>
-                    <a href="{{ url('/admin') }}" class="block text-white hover:bg-gray-600 px-3 py-2 rounded">ระบบจัดการ (Admin)</a>
+                    <a href="{{ route('admin.login') }}" class="block text-white hover:bg-gray-600 px-3 py-2 rounded">ระบบจัดการ (Admin)</a>
                     <a href="#" class="block text-white hover:bg-gray-600 px-3 py-2 rounded">สาขาและจำนวนที่รับสมัคร</a>
                     <a href="#" class="block text-white hover:bg-gray-600 px-3 py-2 rounded">ตอบคำถาม</a>
                     <a href="#" class="block text-white hover:bg-gray-600 px-3 py-2 rounded">รายงานการสมัคร</a>

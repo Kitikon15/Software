@@ -62,12 +62,64 @@ class AuthController extends Controller
     }
 
     /**
+     * Show the admin login form
+     */
+    public function showAdminLogin()
+    {
+        // If already logged in as admin, redirect to admin dashboard
+        if (Session::has('admin_logged_in')) {
+            return redirect()->route('admin.dashboard');
+        }
+        
+        return view('admin.login');
+    }
+
+    /**
+     * Handle admin login request
+     */
+    public function adminLogin(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ], [
+            'username.required' => 'กรุณากรอกชื่อผู้ใช้',
+            'password.required' => 'กรุณากรอกรหัสผ่าน',
+        ]);
+
+        // Updated credentials as requested
+        $validUsername = 'kitikon15';
+        $validPassword = 'kit15';
+        
+        if ($request->username !== $validUsername || $request->password !== $validPassword) {
+            return back()->withErrors([
+                'login' => 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'
+            ])->withInput();
+        }
+        
+        // Store admin login session
+        Session::put('admin_logged_in', true);
+        Session::put('admin_name', 'Administrator');
+        
+        return redirect()->route('admin.dashboard')->with('success', 'เข้าสู่ระบบผู้ดูแลเรียบร้อยแล้ว');
+    }
+
+    /**
      * Handle logout request
      */
     public function logout()
     {
         Session::forget(['applicant_logged_in', 'applicant_id', 'applicant_name']);
         return redirect()->route('login')->with('success', 'ออกจากระบบเรียบร้อยแล้ว');
+    }
+
+    /**
+     * Handle admin logout request
+     */
+    public function adminLogout()
+    {
+        Session::forget(['admin_logged_in', 'admin_name']);
+        return redirect()->route('admin.login')->with('success', 'ออกจากระบบผู้ดูแลเรียบร้อยแล้ว');
     }
 
     /**
